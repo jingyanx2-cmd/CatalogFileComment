@@ -1,0 +1,125 @@
+<idea-plugin>
+    <id>com.annotation.catalogfilecomment</id>
+    <name>Catalog File Comments</name>
+    <version>1.0.0.6</version>
+    <vendor email="3842166270@qq.com" url="https://www.qingxian.online">QingXian</vendor>
+
+    <resource-bundle>messages.CatalogFileCommentsBundle</resource-bundle>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.java</depends>
+
+    <description><![CDATA[
+        <h1>Catalog File Comments</h1>
+        <br/>
+        <b>Your Code Directory "Sticky Notes" & Enterprise Architecture Panorama</b><br/>
+        <b>你的代码目录“便利贴” & 企业级架构全景图</b>
+        <br/><br/>
+
+        <p>
+            In large projects, filenames often fail to fully convey business logic.
+            <b>Catalog File Comments</b> allows you to add custom comments directly after filenames in the Project View.
+        </p>
+        <p>
+            在开发大型项目时，文件名往往难以完全概括其业务逻辑。本插件允许你直接在 Project 视图的文件名后方添加自定义备注。
+        </p>
+        <br/>
+
+        <h2>📸 Feature 1: Visual Comments (目录级可视化备注)</h2>
+        <ul>
+            <li>Display comments directly after the file name in Project View.</li>
+            <li>文件名后直接显示灰色注释，清晰直观。</li>
+        </ul>
+
+        <div style="margin-bottom: 20px;">
+            <a href="https://github.com/jingyanx2-cmd/CatalogFileComment/blob/main/rendering.png?raw=true
+">
+                <img src="https://github.com/jingyanx2-cmd/CatalogFileComment/blob/main/rendering.png?raw=true
+" alt="Visual Comments Demo" width="600" border="0" style="border: 1px solid #808080; padding: 2px;">
+            </a>
+            <br/>
+            <code>Example: AuthServiceImpl.java // Business Layer - Auth Implementation</code>
+        </div>
+
+        <h2>🧠 Feature 2: Smart Analysis (智能架构分析)</h2>
+        <ul>
+            <li>Auto-generate comments based on PSI analysis (Controller, Service, etc.).</li>
+            <li>基于 PSI 深度分析代码，一键生成标准化架构注释。</li>
+        </ul>
+
+        <div style="margin-bottom: 20px;">
+             <a href="https://github.com/jingyanx2-cmd/CatalogFileComment/blob/main/use.png?raw=true">
+                <img src="https://github.com/jingyanx2-cmd/CatalogFileComment/blob/main/use.png?raw=true" alt="Add Comment Dialog Demo" width="600" border="0" style="border: 1px solid #808080; padding: 2px;">
+            </a>
+        </div>
+
+        <br/>
+        <hr/>
+
+        <h3>✨ Key Features (核心特性)</h3>
+        <ul>
+            <li><b>Visual Directory Comments:</b> Native gray style comments in Project View.</li>
+            <li><b>Smart Analysis:</b> Built-in cloud rules to recognize 100+ components.</li>
+            <li><b>Cloud & Offline:</b> Prioritizes cloud rules, falls back to local cache.</li>
+            <li><b>Management Panel:</b> Batch manage all comments via Tools menu.</li>
+        </ul>
+
+        <br/>
+        <div style="border: 1px solid #ffc107; padding: 10px; margin-top: 10px;">
+            <b>⚠️ Statement (声明)</b><br/>
+            <span style="font-size: smaller;">
+                This plugin is developed in spare time. Constructive feedback is welcome.<br/>
+                本插件由作者利用业余时间开发。欢迎通过理性、友善的方式反馈建议。<br/>
+                <i>(Please be gentle with your feedback. Thank you! 🙏)</i>
+            </span>
+        </div>
+
+        <br/>
+        <p><i>Let every filename carry its mission. Happy Coding! 🎉</i></p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>Version 1.0.0</h3>
+        <ul>
+            <li>🎉 Initial release</li>
+            <li>📸 Feature: Visual file comments</li>
+            <li>🧠 Feature: Smart cloud-based analysis</li>
+        </ul>
+    ]]></change-notes>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectViewNodeDecorator
+                implementation="com.annotation.catalogfilecomment.projectView.FileCommentTreeDecorator"/>
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.annotation.catalogfilecomment.config.FileCommentConfigurable"
+                id="CatalogFileCommentConfigurable"
+                key="configurable.display.name"/>
+
+        <applicationService
+                serviceImplementation="com.annotation.catalogfilecomment.config.FileCommentConfigService"/>
+
+        <notificationGroup id="Catalog File Comments" displayType="BALLOON" bundle="messages.CatalogFileCommentsBundle"
+                           key="notification.group.catalog.file.comments"/>
+    </extensions>
+
+    <actions>
+        <action id="CatalogFileComment.AddComment"
+                class="com.annotation.catalogfilecomment.action.AddCommentAction">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
+        </action>
+
+        <action id="CatalogFileComment.RemoveComment"
+                class="com.annotation.catalogfilecomment.action.RemoveCommentAction">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="CatalogFileComment.AddComment"/>
+        </action>
+
+        <action id="CatalogFileComment.OpenManager"
+                class="com.annotation.catalogfilecomment.action.OpenManagerAction">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
